@@ -172,7 +172,6 @@ if st.button("🧮 TÍNH LÃI", use_container_width=True):
             "💎 Tổng gốc + lãi",
             f"{tong_tien:,.0f} VNĐ"
         )
-       ```python
     # ==========================================
     # 🤖 TRỢ LÝ GIẢI THÍCH KẾT QUẢ TÍNH LÃI
     # ==========================================
@@ -313,9 +312,6 @@ if st.button("🧮 TÍNH LÃI", use_container_width=True):
         "Bạn nên kiểm tra điều khoản của sản phẩm tiền gửi "
         "trước khi đưa ra quyết định."
     )
-```
-
-
     # =========================
     # THÔNG TIN TÓM TẮT
     # =========================
