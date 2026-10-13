@@ -172,6 +172,149 @@ if st.button("🧮 TÍNH LÃI", use_container_width=True):
             "💎 Tổng gốc + lãi",
             f"{tong_tien:,.0f} VNĐ"
         )
+       ```python
+    # ==========================================
+    # 🤖 TRỢ LÝ GIẢI THÍCH KẾT QUẢ TÍNH LÃI
+    # ==========================================
+
+    st.divider()
+    st.subheader("🤖 Trợ lý giải thích kết quả")
+
+    st.write(
+        "Trợ lý sẽ giúp bạn hiểu rõ khoản tiền gửi, "
+        "tiền lãi và tổng số tiền dự kiến nhận được."
+    )
+
+    # Tính tỷ lệ tiền lãi so với tiền gốc
+    if tien_gui > 0:
+        ty_le_lai = tong_lai / tien_gui * 100
+    else:
+        ty_le_lai = 0
+
+    # Tạo phần giải thích theo số liệu đã tính
+    st.markdown("### 📊 1. Tổng quan khoản tiết kiệm")
+
+    if tien_gui == 0:
+        st.info(
+            "Bạn chưa nhập số tiền gửi. "
+            "Hãy nhập số tiền lớn hơn 0 để xem phân tích chi tiết."
+        )
+
+    else:
+        st.success(
+            f"Với số tiền gửi **{tien_gui:,.0f} VNĐ**, "
+            f"trong kỳ hạn **{ky_han} tháng**, "
+            f"với lãi suất **{lai_suat:.2f}%/năm**, "
+            f"tiền lãi dự kiến là **{tong_lai:,.0f} VNĐ**. "
+            f"Tổng tiền gốc và lãi là **{tong_tien:,.0f} VNĐ**."
+        )
+
+        st.write(
+            f"Tiền lãi tương đương **{ty_le_lai:.2f}%** "
+            "so với số tiền gốc ban đầu."
+        )
+
+    # Giải thích phương pháp tính lãi
+    st.markdown("### 📐 2. Giải thích phương pháp tính lãi")
+
+    if loai_lai == "Lãi đơn":
+        st.write(
+            "**Bạn đang sử dụng phương pháp lãi đơn.** "
+            "Tiền lãi được tính dựa trên số tiền gốc ban đầu. "
+            "Phần lãi không được cộng vào gốc để tiếp tục sinh lãi "
+            "trong mô hình tính toán này."
+        )
+
+        st.latex(r"I = P \\times r \\times t")
+
+        st.write(
+            f"Với khoản tiền gửi của bạn, tiền lãi được tính "
+            f"dựa trên số tiền gốc {tien_gui:,.0f} VNĐ, "
+            f"lãi suất {lai_suat:.2f}%/năm và thời gian "
+            f"{so_nam:.2f} năm."
+        )
+
+    else:
+        st.write(
+            "**Bạn đang sử dụng phương pháp lãi kép.** "
+            "Trong mô hình này, tiền lãi được cộng vào gốc "
+            "theo chu kỳ ghép lãi. Những kỳ tiếp theo có thể "
+            "tạo ra lãi trên cả tiền gốc và phần lãi đã tích lũy."
+        )
+
+        st.latex(r"A = P(1+r)^n")
+
+        st.write(
+            "Số tiền cuối kỳ được xác định dựa trên số tiền gốc, "
+            "lãi suất mỗi kỳ và số kỳ ghép lãi đã chọn."
+        )
+
+    # Giải thích hình thức nhận lãi
+    st.markdown("### 💵 3. Giải thích hình thức nhận lãi")
+
+    if hinh_thuc == "Lãnh lãi hàng tháng":
+        st.write(
+            "Bạn đã chọn nhận lãi hằng tháng. "
+            f"Theo phép tính hiện tại, số tiền lãi mỗi tháng "
+            f"được ước tính là **{lai_dinh_ky:,.0f} VNĐ** "
+            "đối với khoản tiền gửi này."
+        )
+
+    elif hinh_thuc == "Lãnh lãi hàng quý":
+        st.write(
+            "Bạn đã chọn nhận lãi hằng quý. "
+            f"Theo phép tính hiện tại, số tiền lãi mỗi quý "
+            f"được ước tính là **{lai_dinh_ky:,.0f} VNĐ**."
+        )
+
+    else:
+        st.write(
+            "Bạn đã chọn nhận lãi cuối kỳ. "
+            f"Tổng tiền lãi dự kiến khi kết thúc kỳ hạn là "
+            f"**{tong_lai:,.0f} VNĐ**."
+        )
+
+    # Đưa ra nhận xét theo kết quả
+    st.markdown("### 💡 4. Nhận xét về khoản tiền gửi")
+
+    if lai_suat == 0:
+        st.info(
+            "Lãi suất đang bằng 0%, vì vậy khoản tiền gửi "
+            "không phát sinh tiền lãi theo mô hình tính toán."
+        )
+
+    elif ty_le_lai > 0:
+        st.write(
+            f"Với mức lãi suất bạn nhập, khoản tiền gửi tạo ra "
+            f"{tong_lai:,.0f} VNĐ tiền lãi theo các giả định "
+            "của phép tính hiện tại."
+        )
+
+        if loai_lai == "Lãi kép":
+            st.write(
+                "Lãi kép có thể giúp tăng số tiền tích lũy "
+                "khi lãi được giữ lại và tiếp tục ghép vào gốc. "
+                "Kết quả phụ thuộc vào chu kỳ ghép lãi và thời gian gửi."
+            )
+        else:
+            st.write(
+                "Với lãi đơn, tiền lãi được tính dựa trên "
+                "số tiền gốc ban đầu nên cách tính dễ theo dõi."
+            )
+
+    # Lưu ý quan trọng
+    st.markdown("### ⚠️ 5. Lưu ý trước khi gửi tiết kiệm")
+
+    st.caption(
+        "Kết quả trên là số tiền ước tính theo thông tin bạn nhập "
+        "và công thức của ứng dụng. Tiền lãi thực tế có thể khác "
+        "do phương pháp tính lãi của ngân hàng, số ngày thực gửi, "
+        "điều kiện nhận lãi, tái tục hoặc rút trước hạn. "
+        "Bạn nên kiểm tra điều khoản của sản phẩm tiền gửi "
+        "trước khi đưa ra quyết định."
+    )
+```
+
 
     # =========================
     # THÔNG TIN TÓM TẮT
